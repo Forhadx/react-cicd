@@ -3,7 +3,7 @@ name: Build and Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main # Replace with your main development branch
+      - master # Replace with your main development branch
 
 jobs:
   build-and-deploy:
@@ -27,11 +27,11 @@ jobs:
 
       - name: Deploy to prod url
         # main is the branch name where new code is pushed
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/master'
 
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
-          branch: master # The branch the action should deploy to.
+          branch: gh-pages # The branch the action should deploy to.
           folder: dist # The folder the action should deploy.
 
 # go the repo settings, Action > General > Workflow permissions
