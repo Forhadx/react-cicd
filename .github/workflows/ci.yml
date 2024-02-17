@@ -1,0 +1,39 @@
+name: Continuous Integration
+#= this is trigger CI on push and PR for main branch only
+# on:
+#   push:
+#     branches: [ main ]    # if specify then tigger when main branc change
+#   pull_request:
+#     branches: [ main ]
+
+#= this is trigger CI on all kinds of branches and PRs
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Use Nodejs
+        uses: actions/setup-node@v2
+        with:
+          node-version: '21.6.2'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Linters
+        run: npm run lint
+
+      - name: Run Formatters
+        run: npm run format
+    
+      - name: Check commit messages
+        uses: wagoid/commitlint-github-action@v3
+        with:
+          configFile: commitlint.config.cjs
